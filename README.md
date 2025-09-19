@@ -1,13 +1,13 @@
-# Heartbeat Tracker
+# CardioTrack
 
-Heartbeat Tracker is a Django-based application for recording and managing patient health data, including heartbeat, sugar, and cholesterol levels. It supports audit trails, user roles, and organizational linkage.
+CardioTrack is a Django-based application for recording and managing patient health data, including heartbeat, sugar, and cholesterol levels. It supports audit trails, user roles, and organizational linkage.
 
 ## Installation
 
 1. Clone the repository:
 ```bash
 git clone https://github.com/rohitrkvarathe111/CardioTrack.git
-cd heartbeat-tracker
+cd CardioTrack
 ```
 
 2. Create a virtual environment:
