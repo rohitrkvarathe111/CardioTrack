@@ -171,6 +171,125 @@ curl --location 'http://localhost:8000/api/register_patient' \
 }
 ```
 
+## SEarch Patient Data
+- Endpoint: GET /api/patient_data
+- Description: ORG_ADMIN or ORG_USER can only serch patient deatils.
+- Curl Request
+```bash
+curl --location 'http://localhost:8000/api/patient_data?email=patient3%40example.com' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4Mzc4MTk3LCJpYXQiOjE3NTgyOTE3OTcsImp0aSI6ImFkZTM2OTJmNTljMTQyZGY5NTBiOTc5YzI2ZmU0ODU0IiwidXNlcl9pZCI6MTIsImVtYWlsIjoidXNlcjJAdGV4c3RvbmUuY29tIn0.mN9omnmsPMc97L0R8ZWz4tRJW-MmJZIdSS6j_V3XCAM' \
+--header 'Cookie: csrftoken=w8pdsnCEJiqELCj05RfTmQsXtHYF13Zf5IecC4PFtHAQdCQfyZ3rfu0Cmjrvs8ub'
+
+```
+- Response
+```bash
+{
+    "id": 13,
+    "email": "patient3@example.com",
+    "first_name": "patient3",
+    "last_name": "Brown",
+    "user_type": "PATIENT",
+    "dob": null
+}
+```
+
+
+## Create Patient Data
+- Endpoint: POST /api/patient_data
+- Description: ORG_ADMIN or ORG_USER can create tracking data for a patient.
+- Curl Request
+```bash
+curl --location 'http://localhost:8000/api/patient_data' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4Mzc4MTk3LCJpYXQiOjE3NTgyOTE3OTcsImp0aSI6ImFkZTM2OTJmNTljMTQyZGY5NTBiOTc5YzI2ZmU0ODU0IiwidXNlcl9pZCI6MTIsImVtYWlsIjoidXNlcjJAdGV4c3RvbmUuY29tIn0.mN9omnmsPMc97L0R8ZWz4tRJW-MmJZIdSS6j_V3XCAM' \
+--header 'Cookie: csrftoken=w8pdsnCEJiqELCj05RfTmQsXtHYF13Zf5IecC4PFtHAQdCQfyZ3rfu0Cmjrvs8ub' \
+--data '{
+  "patient": 13,
+  "tracking_type": "HEARTBEAT",
+  "value": "72"
+}'
+
+```
+- Response
+```bash
+{
+    "id": 6,
+    "patient": 13,
+    "tracking_type": "HEARTBEAT",
+    "value": "72",
+    "unit": "BPM",
+    "verified": false,
+    "org": 4,
+    "created_by": 12,
+    "updated_by": 12
+}
+```
+
+## View Patient Data (ORG_ADMIN/ORG_USER)
+- Endpoint: POST /api/view_patient_data?patient_email=patient3@example.com
+- Description: ORG_ADMIN or ORG_USER can view verified patient data.
+- Curl Request
+```bash
+curl --location 'http://localhost:8000/api/view_patient_data?patient_email=patient1%40example.com&verify_status=true' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4Mzc4MTk3LCJpYXQiOjE3NTgyOTE3OTcsImp0aSI6ImFkZTM2OTJmNTljMTQyZGY5NTBiOTc5YzI2ZmU0ODU0IiwidXNlcl9pZCI6MTIsImVtYWlsIjoidXNlcjJAdGV4c3RvbmUuY29tIn0.mN9omnmsPMc97L0R8ZWz4tRJW-MmJZIdSS6j_V3XCAM' \
+--header 'Cookie: csrftoken=w8pdsnCEJiqELCj05RfTmQsXtHYF13Zf5IecC4PFtHAQdCQfyZ3rfu0Cmjrvs8ub'
+
+```
+- Response
+```bash
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 3,
+            "patient": 8,
+            "tracking_type": "SUGAR",
+            "value": "10",
+            "unit": "MG_DL_SUGAR",
+            "verified": true,
+            "org": 3,
+            "created_by": 4,
+            "updated_by": 4
+        },
+        {
+            "id": 2,
+            "patient": 8,
+            "tracking_type": "HEARTBEAT",
+            "value": "60",
+            "unit": "BPM",
+            "verified": true,
+            "org": 3,
+            "created_by": 6,
+            "updated_by": 6
+        }
+    ]
+}
+```
+
+## Verify Patient Data (PATIENT)
+- Endpoint: POST /api/register_patient
+- Description: PATIENT user can verify their own patient data.
+- Curl Request
+```bash
+curl --location 'http://localhost:8000/api/view_patient_data' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4Mzc5MTQzLCJpYXQiOjE3NTgyOTI3NDMsImp0aSI6IjE0YjgyNmU1YWUxOTRmNDA4Yjk2YjA2N2IwODU2MTU4IiwidXNlcl9pZCI6MTMsImVtYWlsIjoicGF0aWVudDNAZXhhbXBsZS5jb20ifQ.mWbFaxMT38u-9gAZjyRIooLuxoK20KBwiicBmQ2ef6c' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: csrftoken=w8pdsnCEJiqELCj05RfTmQsXtHYF13Zf5IecC4PFtHAQdCQfyZ3rfu0Cmjrvs8ub' \
+--data '{
+    "record_id": 6
+}'
+
+```
+- Response
+```bash
+{
+    "detail": "Record has been successfully verified."
+}
+```
+
 
 
 
