@@ -40,3 +40,6 @@ python manage.py createsuperuser
 ```bash
 python manage.py runserver
 ```
+
+## Note: Currently, test cases are implemented in the tests.py files of each app.
+
